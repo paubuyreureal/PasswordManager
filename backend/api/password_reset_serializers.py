@@ -38,8 +38,21 @@ class PasswordResetSerializer(serializers.Serializer):
         token = default_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         
-        # For Docker deployment, explicitly use localhost:3000 for frontend
-        frontend_host = "localhost:3000"
+        # Detect the correct frontend host for different environments
+        if request.get_host().startswith('localhost'):
+            # Local development or Docker Desktop
+            frontend_host = "localhost:3000"
+        else:
+            # Codespaces or production - use the same host but port 3000
+            host_parts = request.get_host().split(':')
+            if len(host_parts) > 1:
+                # Remove existing port and add 3000
+                base_host = host_parts[0]
+                frontend_host = f"{base_host}:3000"
+            else:
+                # No port specified, add 3000
+                frontend_host = f"{request.get_host()}:3000"
+        
         reset_link = f"{request.scheme}://{frontend_host}/reset-password/{uid}-{token}"
         
         form = PasswordResetForm({'email': user.email})
