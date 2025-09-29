@@ -39,19 +39,31 @@ class PasswordResetSerializer(serializers.Serializer):
         uid = urlsafe_base64_encode(force_bytes(user.pk))
 
         # Detect the correct frontend host for different environments
-        if request.get_host().startswith('localhost'):
+        host = request.get_host()
+        forwarded_host = request.META.get('HTTP_X_FORWARDED_HOST', '')
+        
+        print(f"DEBUG: request.get_host() = {host}")
+        print(f"DEBUG: HTTP_X_FORWARDED_HOST = {forwarded_host}")
+        
+        # Check for Codespaces environment
+        if forwarded_host and 'github.dev' in forwarded_host:
+            # Codespaces environment - use the forwarded host
+            frontend_host = f"{forwarded_host.split(':')[0]}:3000"
+        elif host.startswith('localhost') or host.startswith('127.0.0.1'):
             # Local development or Docker Desktop
             frontend_host = "localhost:3000"
         else:
-            # Codespaces or production - use the same host but port 3000
-            host_parts = request.get_host().split(':')
+            # Production or other environments - use the same host but port 3000
+            host_parts = host.split(':')
             if len(host_parts) > 1:
                 # Remove existing port and add 3000
                 base_host = host_parts[0]
                 frontend_host = f"{base_host}:3000"
             else:
                 # No port specified, add 3000
-                frontend_host = f"{request.get_host()}:3000"
+                frontend_host = f"{host}:3000"
+        
+        print(f"DEBUG: Final frontend_host = {frontend_host}")
 
         reset_link = f"{request.scheme}://{frontend_host}/reset-password/{uid}-{token}"
 
