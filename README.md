@@ -64,7 +64,7 @@ La aplicación utiliza el archivo `codespaces.env` para la configuración en Cod
 - **Configuración de Django** (SECRET_KEY, DEBUG, etc.)
 - **Base de datos** (configurada automáticamente en Docker)
 
-## 🔌 Endpoints de la API
+## 🔌 Endpoints de la API (Probar a través del Frontend)
 
 ### Autenticación
 ```bash
@@ -129,7 +129,7 @@ GET /api/accounts/?url_filter=google.com
 
 ## 🔄 Funcionalidad de Recuperación de Contraseña
 
-**Importante:** En la versión actual, no se envía un correo electrónico real. En su lugar, el contenido del correo se imprime en los logs del backend donde se puede acceder al enlace para restablecer la contraseña. Para esta función, acceder a los logs a través de Codespaces
+**Importante:** En la versión actual, no se envía un correo electrónico real. En su lugar, el contenido del correo se imprime en los logs del backend donde se puede acceder al enlace para restablecer la contraseña. Para esta función, acceder a los logs a través de Codespaces.
 
 ### Cómo funciona:
 
@@ -140,6 +140,7 @@ GET /api/accounts/?url_filter=google.com
    ```bash
    docker compose -f docker-compose.codespaces.yml logs -f backend
    ```
+   o en la sección de **Containers**, botón derecho sobre el container del Backend y seleccionar **View Logs**
 5. **Uso del enlace:** Copia el enlace de los logs y ábrelo en el navegador para restablecer la contraseña
 
 Esta implementación permite probar la funcionalidad completa sin necesidad de configurar un servidor de email real.
