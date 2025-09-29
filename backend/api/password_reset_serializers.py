@@ -47,8 +47,8 @@ class PasswordResetSerializer(serializers.Serializer):
         
         # Check for Codespaces environment
         if forwarded_host and 'github.dev' in forwarded_host:
-            # Codespaces environment - use the forwarded host
-            frontend_host = f"{forwarded_host.split(':')[0]}:3000"
+            # Codespaces environment - use the forwarded host without adding port
+            frontend_host = forwarded_host.split(':')[0]
         elif host.startswith('localhost') or host.startswith('127.0.0.1'):
             # Local development or Docker Desktop
             frontend_host = "localhost:3000"
