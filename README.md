@@ -47,13 +47,13 @@ La aplicación está completamente funcional y lista para probar con:
                                                └─────────────────┘
 ```
 
-## 🚀 Inicio Rápido
+## 🚀 Set Up
 
 ### GitHub Codespaces
 
 1. **Haz clic en el botón "Code"** en este repositorio
 2. **Selecciona "Codespaces"** → **"Create codespace on main"**
-3. **Espera varios minutos** para la configuración automática (se instalan automáticamente las dependencias)
+3. **Espera varios minutos** para la configuración automática (se instalan automáticamente las dependencias, esperar hasta que la terminal deje escribir al usuario)
 4. **Accede a la aplicación** en el puerto reenviado (normalmente puerto 3000)
 
 ## 📋 Variables de Entorno
