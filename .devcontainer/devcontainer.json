@@ -48,7 +48,7 @@
     }
   },
 
-  "postCreateCommand": "apt-get update && apt-get install -y docker-compose-plugin && echo 'Docker version:' && docker --version && echo 'Docker Compose version:' && docker compose --version && echo 'Starting application...' && docker compose -f docker-compose.codespaces.yml up --build -d && echo 'Application started successfully! Check the forwarded ports.'",
+  "postCreateCommand": "apt-get update && apt-get install -y docker-compose-plugin && echo 'Docker version:' && docker --version && echo 'Docker Compose version:' && docker compose --version && echo 'Installing Python dependencies...' && pip install -r backend/requirements.txt && echo 'Starting application...' && docker compose -f docker-compose.codespaces.yml up --build -d && echo 'Application started successfully! Check the forwarded ports.'",
 
   "remoteUser": "root"
 }
