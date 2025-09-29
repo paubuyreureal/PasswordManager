@@ -29,32 +29,19 @@ class PasswordResetSerializer(serializers.Serializer):
         """Generate a one-use only link for resetting password and send it to the user"""
         request = self.context.get('request')
         username = self.validated_data['username']
-        
+
         user = User.objects.get(username=username)
         from django.contrib.auth.tokens import default_token_generator
         from django.utils.http import urlsafe_base64_encode
         from django.utils.encoding import force_bytes
-        
+
         token = default_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         
-        # Detect the correct frontend host for different environments
-        if request.get_host().startswith('localhost'):
-            # Local development or Docker Desktop
-            frontend_host = "localhost:3000"
-        else:
-            # Codespaces or production - use the same host but port 3000
-            host_parts = request.get_host().split(':')
-            if len(host_parts) > 1:
-                # Remove existing port and add 3000
-                base_host = host_parts[0]
-                frontend_host = f"{base_host}:3000"
-            else:
-                # No port specified, add 3000
-                frontend_host = f"{request.get_host()}:3000"
-        
+        # For Docker deployment, explicitly use localhost:3000 for frontend
+        frontend_host = "localhost:3000"
         reset_link = f"{request.scheme}://{frontend_host}/reset-password/{uid}-{token}"
-        
+
         form = PasswordResetForm({'email': user.email})
         if form.is_valid():
             form.save(
@@ -77,14 +64,15 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
     def validate(self, attrs):
         """Validate that the two password entries match"""
         if attrs['new_password1'] != attrs['new_password2']:
-            raise serializers.ValidationError(_("The two password fields didn't match."))
+            raise serializers.ValidationError(
+                _("The two password fields didn't match."))
         return attrs
 
     def validate_new_password1(self, value):
         """Validate the new password strength"""
         from django.contrib.auth.password_validation import validate_password
         from django.core.exceptions import ValidationError
-        
+
         try:
             validate_password(value)
         except ValidationError as e:
