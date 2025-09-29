@@ -1,17 +1,17 @@
 {
   "name": "Password Manager",
-  "dockerComposeFile": "../docker-compose.codespaces.yml",
-  "service": "backend",
+  "image": "mcr.microsoft.com/devcontainers/python:3.9",
   "workspaceFolder": "/workspaces/PasswordManager",
-  "shutdownAction": "stopCompose",
   
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "moby": false
+      "moby": false,
+      "installDockerBuildx": true,
+      "enableNonRootDocker": true
     },
     "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/python:1": {
-      "version": "3.9"
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
     }
   },
 
@@ -48,7 +48,7 @@
     }
   },
 
-  "postCreateCommand": "docker-compose -f docker-compose.codespaces.yml up --build -d && echo 'Application started successfully!'",
+  "postCreateCommand": "apt-get update && apt-get install -y docker-compose-plugin && echo 'Docker version:' && docker --version && echo 'Docker Compose version:' && docker compose --version && echo 'Starting application...' && docker compose -f docker-compose.codespaces.yml up --build -d && echo 'Application started successfully! Check the forwarded ports.'",
 
   "remoteUser": "root"
 }
