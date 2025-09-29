@@ -18,7 +18,7 @@ function ForgotPassword() {
         try {
             const response = await api.post("/api/password-reset/", { username });
             if (response.status === 200) {
-                setMessage("Password reset email sent! Please check your inbox.");
+                setMessage("Password reset email sent to backend logs! Please check them in Codespaces.");
             }
         } catch (error) {
             console.error("Password reset error:", error);
