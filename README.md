@@ -1,74 +1,74 @@
 # Password Manager
 
-Aplicación web segura para gestionar contraseñas y credenciales, construida con Django REST Framework en el backend y React en el frontend, completamente containerizada con Docker y desplegada en GitHub Codespaces.
+Secure web application for managing passwords and credentials, built with Django REST Framework on the backend and React on the frontend, fully containerized with Docker and deployed on GitHub Codespaces.
 
 ## 🚀 Demo
 
-**Accede a la aplicación directamente:** [Abrir en GitHub Codespaces](https://github.com/paubuyreureal/PasswordManager)
+**Access the application directly:** [Open in GitHub Codespaces](https://github.com/paubuyreureal/PasswordManager)
 
-La aplicación está completamente funcional y lista para probar con:
-- Registro y autenticación de usuarios
-- Almacenamiento seguro de contraseñas con cifrado
-- Funcionalidad de recuperación de contraseña (e-mail en consola)
-- Capacidades de búsqueda y filtrado
+The application is fully functional and ready to test with:
+- User registration and authentication
+- Secure password storage with encryption
+- Password recovery functionality (email in console)
+- Search and filtering capabilities
 
-## 🛠️ Stack Tecnológico
+## 🛠️ Tech Stack
 
 ### Backend
-- **Python 3.9** con **Django 4.2** y **Django REST Framework**
-- **PostgreSQL** como base de datos principal
-- **Autenticación JWT** con tokens de actualización
-- **Cifrado AES** para contraseñas almacenadas
-- **bcrypt** para hash de contraseñas de usuario
+- **Python 3.9** with **Django 4.2** and **Django REST Framework**
+- **PostgreSQL** as the main database
+- **JWT Authentication** with refresh tokens
+- **AES Encryption** for stored passwords
+- **bcrypt** for user password hashing
 
 ### Frontend
-- **React 18** con **Vite** como herramienta de build
-- **Tailwind CSS** para estilos
-- **React Router** para navegación
-- **Axios** para comunicación con la API
+- **React 18** with **Vite** as build tool
+- **Tailwind CSS** for styling
+- **React Router** for navigation
+- **Axios** for API communication
 
-### Infraestructura
-- **Docker** y **Docker Compose** para containerización
-- **GitHub Codespaces** para despliegue en la nube
-- **Nginx** como proxy inverso y servidor de archivos estáticos
-- **DevContainer** configurado para desarrollo sin fricciones
+### Infrastructure
+- **Docker** and **Docker Compose** for containerization
+- **GitHub Codespaces** for cloud deployment
+- **Nginx** as reverse proxy and static file server
+- **DevContainer** configured for frictionless development
 
-## 🏗️ Arquitectura
+## 🏗️ Architecture
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   React Frontend│────│  Nginx Proxy    │────│ Django Backend  │
-│   (Puerto 3000) │    │   (Puerto 80)   │    │   (Puerto 8000) │
+│   (Port 3000)   │    │   (Port 80)     │    │   (Port 8000)   │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
                                                        │
                                                ┌─────────────────┐
                                                │   PostgreSQL    │
-                                               │   (Puerto 5432) │
+                                               │   (Port 5432)   │
                                                └─────────────────┘
 ```
 
-## 🚀 Set Up
+## 🚀 Setup
 
 ### GitHub Codespaces
 
-1. **Haz clic en el botón "Code"** en este repositorio
-2. **Selecciona "Codespaces"** → **"Create codespace on main"**
-3. **Espera varios minutos** para la configuración automática (se instalan automáticamente las dependencias, esperar hasta que la terminal deje escribir al usuario)
-4. **Accede a la aplicación** en el puerto reenviado (normalmente puerto 3000)
+1. **Click the "Code" button** in this repository
+2. **Select "Codespaces"** → **"Create codespace on main"**
+3. **Wait several minutes** for automatic setup (dependencies are installed automatically, wait until the terminal allows user input)
+4. **Access the application** on the forwarded port (usually port 3000)
 
-## 📋 Variables de Entorno
+## 📋 Environment Variables
 
-La aplicación utiliza el archivo `codespaces.env` para la configuración en Codespaces. Para referencia, consulta `docker.env.example` que contiene la plantilla de todas las variables necesarias:
+The application uses the `codespaces.env` file for configuration in Codespaces. For reference, check `docker.env.example` which contains the template for all necessary variables:
 
-- **Configuración de email** (para recuperación de contraseña) --- NO USADO EN VERSIÓN ACTUAL
-- **Configuración de Django** (SECRET_KEY, DEBUG, etc.)
-- **Base de datos** (configurada automáticamente en Docker)
+- **Email configuration** (for password recovery) --- NOT USED IN CURRENT VERSION
+- **Django configuration** (SECRET_KEY, DEBUG, etc.)
+- **Database** (automatically configured in Docker)
 
-## 🔌 Endpoints de la API (Probar a través del Frontend)
+## 🔌 API Endpoints (Test through Frontend)
 
-### Autenticación
+### Authentication
 ```bash
-# Registro de usuario
+# User registration
 POST /api/register/
 {
   "username": "testuser",
@@ -83,13 +83,13 @@ POST /api/login/
   "password": "securepassword"
 }
 
-# Solicitud de recuperación de contraseña
+# Password reset request
 POST /api/password-reset/
 {
   "username": "testuser"
 }
 
-# Confirmación de recuperación de contraseña
+# Password reset confirmation
 POST /api/password-reset/confirm/
 {
   "token": "reset-token",
@@ -97,21 +97,21 @@ POST /api/password-reset/confirm/
 }
 ```
 
-### Gestión de Contraseñas (Requiere Autenticación)
+### Password Management (Requires Authentication)
 ```bash
-# Obtener todas las cuentas
+# Get all accounts
 GET /api/accounts/
 
-# Crear nueva cuenta
+# Create new account
 POST /api/accounts/
 {
   "username": "gmail_user",
   "password": "gmail_password",
   "url": "https://gmail.com",
-  "notes": "Cuenta de email personal"
+  "notes": "Personal email account"
 }
 
-# Actualizar cuenta
+# Update account
 PUT /api/accounts/{id}/
 {
   "username": "updated_user",
@@ -119,33 +119,33 @@ PUT /api/accounts/{id}/
   "url": "https://updated-site.com"
 }
 
-# Eliminar cuenta
+# Delete account
 DELETE /api/accounts/{id}/
 
-# Buscar cuentas
+# Search accounts
 GET /api/accounts/?search=gmail
 GET /api/accounts/?url_filter=google.com
 ```
 
-## 🔄 Funcionalidad de Recuperación de Contraseña
+## 🔄 Password Recovery Functionality
 
-**Importante:** En la versión actual, no se envía un correo electrónico real. En su lugar, el contenido del correo se imprime en los logs del backend donde se puede acceder al enlace para restablecer la contraseña. Para esta función, acceder a los logs a través de Codespaces.
+**Important:** In the current version, no real email is sent. Instead, the email content is printed to the backend logs where you can access the password reset link. For this feature, access the logs through Codespaces.
 
-### Cómo funciona:
+### How it works:
 
-1. **Usuario solicita recuperación:** Introduce su nombre de usuario
-2. **Backend genera enlace:** Se crea un token seguro y se genera el enlace
-3. **Email se imprime en logs:** El contenido completo del email aparece en los logs del backend
-4. **Acceso a logs:** Para ver el email y el enlace:
+1. **User requests recovery:** Enter their username
+2. **Backend generates link:** A secure token is created and the link is generated
+3. **Email is printed to logs:** The complete email content appears in the backend logs
+4. **Access logs:** To view the email and link:
    ```bash
    docker compose -f docker-compose.codespaces.yml logs -f backend
    ```
-   o en la sección de **Containers**, botón derecho sobre el container del Backend y seleccionar **View Logs**
-5. **Uso del enlace:** Copia el enlace de los logs y ábrelo en el navegador para restablecer la contraseña
+   or in the **Containers** section, right-click on the Backend container and select **View Logs**
+5. **Use the link:** Copy the link from the logs and open it in the browser to reset the password
 
-Esta implementación permite probar la funcionalidad completa sin necesidad de configurar un servidor de email real.
+This implementation allows testing the complete functionality without needing to configure a real email server.
 
-## 👨‍💻 Autor
+## 👨‍💻 Author
 
-**Pau Buyreu Real** - Desarrollador Backend
+**Pau Buyreu Real** - Backend Developer
 - GitHub: [@paubuyreureal](https://github.com/paubuyreureal)
